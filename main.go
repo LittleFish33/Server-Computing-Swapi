@@ -50,7 +50,7 @@ func main() {
 		Fields: graphql.Fields{
 			// todo：从这里开始
 			// 第一步：添加查询语句，下面有两个例子，planet和species，补上people，films，starships，vehicles
-			"planet": &graphql.Field{
+			"planets": &graphql.Field{
 				Type: createPlanetType(),
 				Args: graphql.FieldConfigArgument{
 					"id": &graphql.ArgumentConfig{
@@ -76,6 +76,63 @@ func main() {
 					v, _ := id.(int)
 					log.Printf("fetching species with id: %d", v)
 					return fetchSpeciesByPostID(v)
+				},
+			},
+
+			"people": &graphql.Field{
+				Type: createPeopleType(),
+				Args: graphql.FieldConfigArgument{
+					"id": &graphql.ArgumentConfig{
+						Type: graphql.NewNonNull(graphql.Int),
+					},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					id := params.Args["id"]
+					v, _ := id.(int)
+					log.Printf("fetching people with id: %d", v)
+					return fetchPeopleByiD(v)
+				},
+			},
+			"films": &graphql.Field{
+				Type: createFilmType(),
+				Args: graphql.FieldConfigArgument{
+					"id": &graphql.ArgumentConfig{
+						Type: graphql.NewNonNull(graphql.Int),
+					},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					id := params.Args["id"]
+					v, _ := id.(int)
+					log.Printf("fetching films with id: %d", v)
+					return fetchFilmByiD(v)
+				},
+			},
+			"starships": &graphql.Field{
+				Type: createStarshipType(),
+				Args: graphql.FieldConfigArgument{
+					"id": &graphql.ArgumentConfig{
+						Type: graphql.NewNonNull(graphql.Int),
+					},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					id := params.Args["id"]
+					v, _ := id.(int)
+					log.Printf("fetching starships with id: %d", v)
+					return fetchStarshipByiD(v)
+				},
+			},
+			"vehicles": &graphql.Field{
+				Type: createVehicleType(),
+				Args: graphql.FieldConfigArgument{
+					"id": &graphql.ArgumentConfig{
+						Type: graphql.NewNonNull(graphql.Int),
+					},
+				},
+				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+					id := params.Args["id"]
+					v, _ := id.(int)
+					log.Printf("fetching Vehicles with id: %d", v)
+					return fetchVehicleByiD(v)
 				},
 			},
 			// 到这里结束
@@ -108,6 +165,9 @@ func createPlanetType() *graphql.Object {
 			"Name": &graphql.Field{
 				Type: graphql.String,
 			},
+			"OrbitalPeriod": &graphql.Field{
+				Type: graphql.String,
+			},
 			"RotationPeriod": &graphql.Field{
 				Type: graphql.String,
 			},
@@ -134,6 +194,9 @@ func createPlanetType() *graphql.Object {
 			},
 			"FilmURLs": &graphql.Field{
 				Type: graphql.NewList(graphql.String),
+			},
+			"Created": &graphql.Field{
+				Type: graphql.String,
 			},
 			"Edited": &graphql.Field{
 				Type: graphql.String,
@@ -198,6 +261,227 @@ func createSpeciesType() *graphql.Object {
 	})
 }
 
+func createPeopleType() *graphql.Object {
+	return graphql.NewObject(graphql.ObjectConfig{
+		Name: "Person",
+		Fields: graphql.Fields{
+			"Name": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Height": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Mass": &graphql.Field{
+				Type: graphql.String,
+			},
+			"HairColor": &graphql.Field{
+				Type: graphql.String,
+			},
+			"SkinColor": &graphql.Field{
+				Type: graphql.String,
+			},
+			"EyeColor": &graphql.Field{
+				Type: graphql.String,
+			},
+			"BirthYear": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Gender": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Homeworld": &graphql.Field{
+				Type: graphql.String,
+			},
+			"FilmURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"SpeciesURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"VehicleURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"StarshipURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"Created": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Edited": &graphql.Field{
+				Type: graphql.String,
+			},
+			"URL": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	})
+}
+
+func createFilmType() *graphql.Object {
+	return graphql.NewObject(graphql.ObjectConfig{
+		Name: "Film",
+		Fields: graphql.Fields{
+			"Title": &graphql.Field{
+				Type: graphql.String,
+			},
+			"EpisodeID": &graphql.Field{
+				Type: graphql.Int,
+			},
+			"OpeningCrawl": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Director": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Producer": &graphql.Field{
+				Type: graphql.String,
+			},
+			"CharacterURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"PlanetURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"StarshipURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"VehicleURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"SpeciesURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"Created": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Edited": &graphql.Field{
+				Type: graphql.String,
+			},
+			"URL": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	})
+}
+
+func createStarshipType() *graphql.Object {
+	return graphql.NewObject(graphql.ObjectConfig{
+		Name: "Starship",
+		Fields: graphql.Fields{
+			"Name": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Model": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Manufacturer": &graphql.Field{
+				Type: graphql.String,
+			},
+			"CostInCredits": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Length": &graphql.Field{
+				Type: graphql.String,
+			},
+			"MaxAtmospheringSpeed": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Crew": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Passengers": &graphql.Field{
+				Type: graphql.String,
+			},
+			"CargoCapacity": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Consumables": &graphql.Field{
+				Type: graphql.String,
+			},
+			"HyperdriveRating": &graphql.Field{
+				Type: graphql.String,
+			},
+			"MGLT": &graphql.Field{
+				Type: graphql.String,
+			},
+			"StarshipClass": &graphql.Field{
+				Type: graphql.String,
+			},
+			"PilotURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"FilmURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"Created": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Edited": &graphql.Field{
+				Type: graphql.String,
+			},
+			"URL": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	})
+}
+
+func createVehicleType() *graphql.Object {
+	return graphql.NewObject(graphql.ObjectConfig{
+		Name: "Vehicle",
+		Fields: graphql.Fields{
+			"Name": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Model": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Manufacturer": &graphql.Field{
+				Type: graphql.String,
+			},
+			"CostInCredits": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Length": &graphql.Field{
+				Type: graphql.String,
+			},
+			"MaxAtmospheringSpeed": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Crew": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Passengers": &graphql.Field{
+				Type: graphql.String,
+			},
+			"CargoCapacity": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Consumables": &graphql.Field{
+				Type: graphql.String,
+			},
+			"VehicleClass": &graphql.Field{
+				Type: graphql.String,
+			},
+			"PilotURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"FilmURLs": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"Created": &graphql.Field{
+				Type: graphql.String,
+			},
+			"Edited": &graphql.Field{
+				Type: graphql.String,
+			},
+			"URL": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	})
+}
+
 // 到这里结束
 
 // todo：从这里开始
@@ -228,6 +512,78 @@ func fetchSpeciesByPostID(id int) (*Species, error) {
 
 	db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("DB")).Bucket([]byte("Species"))
+		v := string(b.Get([]byte(strconv.Itoa(id))))
+		err := json.Unmarshal([]byte(v), &result)
+		if err != nil {
+			return fmt.Errorf("could not Unmarshal json string: %v", err)
+		}
+
+		return nil
+	})
+	db.Close()
+	return &result, nil
+}
+
+func fetchPeopleByiD(id int) (*Person, error) {
+	result := Person{}
+	db, _ := setupDB()
+
+	db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("People"))
+		v := string(b.Get([]byte(strconv.Itoa(id))))
+		err := json.Unmarshal([]byte(v), &result)
+		if err != nil {
+			return fmt.Errorf("could not Unmarshal json string: %v", err)
+		}
+
+		return nil
+	})
+	db.Close()
+	return &result, nil
+}
+
+func fetchFilmByiD(id int) (*Film, error) {
+	result := Film{}
+	db, _ := setupDB()
+
+	db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("Films"))
+		v := string(b.Get([]byte(strconv.Itoa(id))))
+		err := json.Unmarshal([]byte(v), &result)
+		if err != nil {
+			return fmt.Errorf("could not Unmarshal json string: %v", err)
+		}
+
+		return nil
+	})
+	db.Close()
+	return &result, nil
+}
+
+func fetchStarshipByiD(id int) (*Starship, error) {
+	result := Starship{}
+	db, _ := setupDB()
+
+	db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("Starships"))
+		v := string(b.Get([]byte(strconv.Itoa(id))))
+		err := json.Unmarshal([]byte(v), &result)
+		if err != nil {
+			return fmt.Errorf("could not Unmarshal json string: %v", err)
+		}
+
+		return nil
+	})
+	db.Close()
+	return &result, nil
+}
+
+func fetchVehicleByiD(id int) (*Vehicle, error) {
+	result := Vehicle{}
+	db, _ := setupDB()
+
+	db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("Vehicles"))
 		v := string(b.Get([]byte(strconv.Itoa(id))))
 		err := json.Unmarshal([]byte(v), &result)
 		if err != nil {
