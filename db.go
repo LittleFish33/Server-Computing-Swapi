@@ -171,7 +171,7 @@ func testdb() {
 	err = db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("DB")).Bucket([]byte("Planets"))
 		b.ForEach(func(k, v []byte) error {
-			fmt.Println(string(k), string(v))
+			fmt.Println(string(k), string(v),"\n")
 			return nil
 		})
 		return nil
