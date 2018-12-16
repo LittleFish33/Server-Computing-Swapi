@@ -212,6 +212,6 @@ func testdb() {
 // 到这里结束
 
 // 如果要测试db.go类，去掉下面的注释
-func main() {
-	testdb()
-}
+// func main() {
+// 	testdb()
+// }
