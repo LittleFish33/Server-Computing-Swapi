@@ -17,6 +17,7 @@ type Planet struct {
 	URL            string   `json:"url"`
 }
 
+
 type Species struct {
 	Name            string   `json:"name"`
 	Classification  string   `json:"classification"`
@@ -75,6 +76,7 @@ type Starship struct {
 	URL                  string   `json:"url"`
 }
 
+
 type Person struct {
 	Name         string   `json:"name"`
 	Height       string   `json:"height"`
@@ -94,6 +96,7 @@ type Person struct {
 	URL          string   `json:"url"`
 }
 
+
 type Film struct {
 	Title         string   `json:"title"`
 	EpisodeID     int      `json:"episode_id"`
@@ -109,3 +112,4 @@ type Film struct {
 	Edited        string   `json:"edited"`
 	URL           string   `json:"url"`
 }
+

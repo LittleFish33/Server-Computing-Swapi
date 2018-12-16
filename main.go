@@ -499,7 +499,7 @@ func fetchPlanetByiD(id int) (*Planet, error) {
 		if err != nil {
 			return fmt.Errorf("could not Unmarshal json string: %v", err)
 		}
-
+		db.Close()
 		return nil
 	})
 	db.Close()
@@ -517,7 +517,7 @@ func fetchSpeciesByPostID(id int) (*Species, error) {
 		if err != nil {
 			return fmt.Errorf("could not Unmarshal json string: %v", err)
 		}
-
+		db.Close()
 		return nil
 	})
 	db.Close()
@@ -535,7 +535,7 @@ func fetchPeopleByiD(id int) (*Person, error) {
 		if err != nil {
 			return fmt.Errorf("could not Unmarshal json string: %v", err)
 		}
-
+		db.Close()
 		return nil
 	})
 	db.Close()
@@ -547,13 +547,13 @@ func fetchFilmByiD(id int) (*Film, error) {
 	db, _ := setupDB()
 
 	db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("DB")).Bucket([]byte("Films"))
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("Film"))
 		v := string(b.Get([]byte(strconv.Itoa(id))))
 		err := json.Unmarshal([]byte(v), &result)
 		if err != nil {
 			return fmt.Errorf("could not Unmarshal json string: %v", err)
 		}
-
+		db.Close()
 		return nil
 	})
 	db.Close()
@@ -565,13 +565,13 @@ func fetchStarshipByiD(id int) (*Starship, error) {
 	db, _ := setupDB()
 
 	db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("DB")).Bucket([]byte("Starships"))
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("Starship"))
 		v := string(b.Get([]byte(strconv.Itoa(id))))
 		err := json.Unmarshal([]byte(v), &result)
 		if err != nil {
 			return fmt.Errorf("could not Unmarshal json string: %v", err)
 		}
-
+		db.Close()
 		return nil
 	})
 	db.Close()
@@ -583,13 +583,13 @@ func fetchVehicleByiD(id int) (*Vehicle, error) {
 	db, _ := setupDB()
 
 	db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("DB")).Bucket([]byte("Vehicles"))
+		b := tx.Bucket([]byte("DB")).Bucket([]byte("Vehicle"))
 		v := string(b.Get([]byte(strconv.Itoa(id))))
 		err := json.Unmarshal([]byte(v), &result)
 		if err != nil {
 			return fmt.Errorf("could not Unmarshal json string: %v", err)
 		}
-
+		db.Close()
 		return nil
 	})
 	db.Close()
